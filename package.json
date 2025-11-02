@@ -1,0 +1,13 @@
+{
+  "name": "static-site-test",
+  "version": "1.0.0",
+  "description": "Test static site for build alerts",
+  "scripts": {
+    "build": "mkdir -p dist && cp src/*.html dist/ && cp src/*.css dist/ || true",
+    "lint": "echo 'Linting...' && exit 0"
+  },
+  "dependecies": {
+   expres
+  },
+  "devDependencies": {}
+}
