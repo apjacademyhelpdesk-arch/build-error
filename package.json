@@ -6,8 +6,8 @@
     "build": "mkdir -p dist && cp src/*.html dist/ && cp src/*.css dist/ || true",
     "lint": "echo 'Linting...' && exit 0"
   },
-  "dependecies": {
-   expres
+  "dependencies": {
+   
   },
   "devDependencies": {}
 }
