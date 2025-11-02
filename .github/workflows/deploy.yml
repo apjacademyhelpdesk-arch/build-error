@@ -1,0 +1,35 @@
+name: Build and Deploy Static Site
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Build static site
+        run: npm run build
+      
+      # Send webhook on failure
+      - name: Notify on failure
+        if: failure()
+        run: |
+          curl -X POST https://n8n.srv1041565.hstgr.cloud/webhook-test/github-failure \
+            -H "Content-Type: application/json" \
+            -d "{\"repository\":\"${{ github.repository }}\",\"workflow\":\"${{ github.workflow }}\",\"run_id\":\"${{ github.run_id }}\",\"run_url\":\"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\",\"branch\":\"${{ github.ref_name }}\",\"commit_sha\":\"${{ github.sha }}\",\"commit_message\":\"${{ github.event.head_commit.message }}\",\"commit_author\":\"${{ github.actor }}\",\"event_name\":\"${{ github.event_name }}\",\"job_status\":\"failure\",\"failed_step\":\"Build static site\",\"timestamp\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"}"
