@@ -7,7 +7,7 @@
     "lint": "echo 'Linting...' && exit 0"
   },
   "dependencies": {
-   
+   vv
   },
   "devDependencies": {}
 }
